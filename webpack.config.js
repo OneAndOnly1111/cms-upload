@@ -2,10 +2,11 @@ const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	entry: './src/js/app.js',
+	// entry: './src/js/app.js',
+	entry: './src/index.js',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'js/[name]-bundle.js',
+		filename: 'js/bundle.js',
 	},
 	devServer:{
 		contentBase: path.join(__dirname, 'dist'), //告诉服务器从哪里提供内容。
@@ -76,10 +77,10 @@ module.exports = {
 	},
 	plugins: [
 		new htmlWebpackPlugin({
-			template: 'index.html',
+			template: path.resolve(__dirname,'./src/index.html'),
 			filename: 'index.html',
 			inject: 'body',
-			title:'myproject'
+			title:'控制台'
 		})
 	]
 }

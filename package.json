@@ -5,13 +5,14 @@
   "main": "index.js",
   "babel": {
     "presets": [
-      "latest"
+      "env",
+      "react"
     ]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --config webpack.config.js --progress --display-modules --colors --display-reasons",
-    "start": "webpack-dev-server --progress --color --inline --hot"
+    "start": "webpack-dev-server --color --inline --hot"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "babel-helpers": "^6.24.1",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.5",
     "file-loader": "^1.1.5",
     "find-cache-dir": "^1.0.0",
@@ -39,7 +41,7 @@
     "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.0.8",
     "react": "^15.6.2",
-    "react-dom": "^15.6.1",
+    "react-dom": "^15.6.2",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
     "redux": "^3.7.2",
