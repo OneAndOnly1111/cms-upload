@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --config webpack.config.js --progress --display-modules --colors --display-reasons"
+    "webpack": "webpack --config webpack.config.js --progress --display-modules --colors --display-reasons",
+    "start": "webpack-dev-server --progress --color --inline --hot"
   },
   "repository": {
     "type": "git",
@@ -27,16 +28,17 @@
     "babel-core": "^6.26.0",
     "babel-helpers": "^6.24.1",
     "babel-loader": "^7.1.2",
-    "babel-preset-latest": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.5",
     "file-loader": "^1.1.5",
     "find-cache-dir": "^1.0.0",
     "html-webpack-plugin": "^2.30.1",
+    "image-webpack-loader": "^3.4.2",
     "less": "^3.0.0-alpha.3",
     "less-loader": "^4.0.5",
     "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.0.8",
-    "react": "^15.6.1",
+    "react": "^15.6.2",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
@@ -46,6 +48,7 @@
     "slash": "^1.0.0",
     "style-loader": "^0.18.2",
     "url-loader": "^0.6.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.9.7"
   }
 }

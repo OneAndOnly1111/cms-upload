@@ -7,11 +7,23 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'js/[name]-bundle.js',
 	},
+	devServer:{
+		contentBase: path.join(__dirname, 'dist'), //告诉服务器从哪里提供内容。
+		historyApiFallback:true, //任意的 404 响应都可能需要被替代为 index.html
+		compress: true, //启用gzip 压缩
+		host: '0.0.0.0', //服务外部也可访问
+		port: 9000,
+		// inline: true,
+	},
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				use: 'babel-loader',
+				use: [
+					{
+						loader:'babel-loader',
+					}
+				],
 				include: path.resolve(__dirname, 'src'),
 				exclude: path.resolve(__dirname, 'node_modules'), //绝对路径 exclude代表不去解析这个目录下的.js文件
 			},
