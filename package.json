@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OneAndOnly1111/myProject.git"
+    "url": "git+https://github.com/OneAndOnly1111/console.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OneAndOnly1111/myProject/issues"
+    "url": "https://github.com/OneAndOnly1111/console/issues"
   },
-  "homepage": "https://github.com/OneAndOnly1111/myProject#readme",
+  "homepage": "https://github.com/OneAndOnly1111/console#readme",
   "devDependencies": {
     "autoprefixer": "^7.1.5",
     "babel-core": "^6.26.0",
