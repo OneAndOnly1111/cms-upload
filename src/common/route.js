@@ -169,3 +169,15 @@ export const getRouterData = (app) => {
   });
   return routerData;
 };
+
+const routers = [{
+  path: '/',
+  component: 'Dashboard',
+  exact: true,
+  authority: true,
+  render: () => <LazyRoute {...props} component={import('../components/test/test1.js')} />
+}, {
+  path: '/',
+  component: 'Dashboard',
+  authority: true,
+}];
