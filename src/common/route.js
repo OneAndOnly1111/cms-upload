@@ -1,5 +1,5 @@
 import React from 'react';
-import dynamic from 'dva/dynamic';
+// import dynamic from 'dva/dynamic';
 import { getMenuData } from './menu';
 
 // wrapper of dynamic
@@ -171,8 +171,8 @@ export const getRouterData = (app) => {
 };
 
 const routers = [{
-  path: '/',
-  component: 'Dashboard',
+  path: '/dashboard/monitor',
+  component: 'Test',
   exact: true,
   authority: true,
   render: () => <LazyRoute {...props} component={import('../components/test/test1.js')} />
