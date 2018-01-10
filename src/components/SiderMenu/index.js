@@ -7,6 +7,14 @@ import { Layout, Menu, Icon } from 'antd';
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
+const getUrl = () => {
+  let url = window.location.href.split("/");
+  let openKeys = url[3];
+  url = url.splice(3);
+  let SelectedKeys = url.join("/");
+  return { openKeys: openKeys, SelectedKeys: SelectedKeys };
+}
+
 export default class SiderMenu extends React.Component {
   /**
    * get SubMenu or Item
@@ -84,12 +92,47 @@ export default class SiderMenu extends React.Component {
     });
   }
 
+  state = {
+    menusData: getMenuData(),
+    openKeys: [getUrl().openKeys],
+    SelectedKeys: [getUrl().SelectedKeys],
+  }
+
+  componentDidMount() {
+    // let url = getUrl();
+    // this.setState({
+    //   openKeys: [getUrl().baseUrl],
+    //   SelectedKeys: [getUrl().url],
+    // });
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    console.log("SiderMenu update!")
+    console.log("SiderMenu update!");
+  }
+
+  onOpenChange = (openKeys) => {
+    console.log("openKeys", openKeys);
+    const lastOpenKey = openKeys[openKeys.length - 1];
+    const isMenu = this.state.menusData.some(item => item.key == lastOpenKey || item.path == lastOpenKey);
+    console.log("isMenu", isMenu);
+    this.setState({
+      openKeys: isMenu ? [lastOpenKey] : [...openKeys]
+    });
+  }
+
+  getSelectedKeys = () => {
+    console.log("getSelectedKeys", getUrl())
+    console.log("getOpenKeys()", this.getOpenKeys())
+    return [getUrl().SelectedKeys]
+  }
+  getOpenKeys = () => {
+    console.log("getOpenKeys", getUrl())
+    return [getUrl().openKeys]
   }
 
   render() {
     const { collapsed } = this.props;
+    const { menusData, openKeys, SelectedKeys } = this.state;
     return (
       <Sider
         trigger={null}
@@ -104,13 +147,16 @@ export default class SiderMenu extends React.Component {
           <h1>控制台</h1>
         </div>
         <Menu
-          key="Menu"
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
           style={{ padding: '16px 0', width: '100%' }}
+          defaultOpenKeys={openKeys}
+          openKeys={openKeys}
+          onOpenChange={this.onOpenChange}
+          defaultSelectedKeys={SelectedKeys}
+          SelectedKeys={this.getSelectedKeys()}
         >
-          { this.getNavMenuItems(getMenuData()) }
+          { this.getNavMenuItems(menusData) }
         </Menu>
       </Sider>
     );

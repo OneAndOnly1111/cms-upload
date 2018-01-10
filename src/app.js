@@ -7,7 +7,8 @@ import { getMenuData } from './common/menu';
 import SiderMenu from "./components/SiderMenu";
 import GlobalHeader from "./components/GlobalHeader";
 import GlobalFooter from "./components/GlobalFooter";
-import TextOne from "./components/Test/test1";
+import TextOne from "./components/Test";
+import Login from "./components/Login";
 import NotFound from "./components/Exception/404";
 const { Header, Sider, Content, Footer } = Layout;
 /**
@@ -30,6 +31,16 @@ const getRedirect = (item) => {
 getMenuData().forEach(getRedirect);
 console.log("redirectData", redirectData);
 
+const getUrl = () => {
+  let url = window.location.href.split("/");
+  url = url.splice(3);
+  url = url.join("/");
+  return url;
+  console.log("url", url);
+  window.location.reload();
+}
+
+getUrl()
 export default class App extends React.Component {
   componentDidMount() {
     const menuData = getMenuData();
@@ -38,7 +49,8 @@ export default class App extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("APP-Update!!!")
+    console.log("APP-Update!!!");
+    getUrl();
   }
 
   state = {
@@ -73,12 +85,12 @@ export default class App extends React.Component {
                       <Redirect key={item.from} exact from={item.from} to={item.to} />
                     )
                   }
-                  <Route exact key="1" path='/' component={TextOne} />
-                  <Route exact key="2" path='/about' component={TextOne} />
-                  <Route exact key="3" path='/contact' component={TextOne} />
-                  <Route exact key="4" path='/dashboard/monitor' component={TextOne} />
-                  <Route exact key="5" path='/dashboard/analysis' component={TextOne} />
-                  <Redirect exact from="/" to="/dashboard/analysis" component={TextOne} />
+                  <Route exact path='/' component={TextOne} />
+                  <Route exact path='/about' component={TextOne} />
+                  <Route exact path='/contact' component={TextOne} />
+                  <Route exact path='/dashboard/monitor' component={TextOne} />
+                  <Route exact path='/dashboard/analysis' component={TextOne} />
+                  <Route exact path='/user/login' component={Login} />
                   <Route component={NotFound} />
                 </Switch>
               </Content>

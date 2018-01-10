@@ -15,6 +15,9 @@ module.exports = {
 		filename: 'js/[name]-[chunkhash].js', //定义打包以后的文件名 
 		publicPath: 'http://10.100.3.15:8080', //指定绝对路径的地址  （满足上线需求）
 	},
+	resolve: {
+		extensions: ['.js', '.jsx', '.json'] //自动解析确定的扩展。默认值为：[".js", ".json"]
+	},
 	plugins: [
 		//用htmlWebpackPlugin.options/files.obj 可获取里面的obj的值
 		new htmlWebpackPlugin({ //指定打包后的index.html文件的模板，解决生成的hash文件名无法对应到实际index.html文件中的问题

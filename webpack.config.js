@@ -4,8 +4,9 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	entry: ['babel-polyfill', './src/index.js'],
 	output: {
-		path: path.resolve(__dirname, 'dist'),
 		filename: 'js/bundle.js',
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/',
 	},
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'), //告诉服务器从哪里提供内容。
@@ -13,6 +14,7 @@ module.exports = {
 		compress: true, //启用gzip 压缩
 		host: '0.0.0.0', //服务外部也可访问
 		port: 9000,
+		// hot: true,
 		// inline: true,
 	},
 	module: {
