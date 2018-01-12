@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.less';
-import logo from '../../images/good.png';
+import logo from '../../../public/favicon.ico';
 import { getMenuData } from '../../common/menu';
 import { Layout, Menu, Icon } from 'antd';
 const { Header, Sider, Content, Footer } = Layout;
@@ -98,14 +98,6 @@ export default class SiderMenu extends React.Component {
     SelectedKeys: [getUrl().SelectedKeys],
   }
 
-  componentDidMount() {
-    // let url = getUrl();
-    // this.setState({
-    //   openKeys: [getUrl().baseUrl],
-    //   SelectedKeys: [getUrl().url],
-    // });
-  }
-
   componentDidUpdate(prevProps, prevState) {
     console.log("SiderMenu update!");
   }
@@ -114,20 +106,13 @@ export default class SiderMenu extends React.Component {
     console.log("openKeys", openKeys);
     const lastOpenKey = openKeys[openKeys.length - 1];
     const isMenu = this.state.menusData.some(item => item.key == lastOpenKey || item.path == lastOpenKey);
-    console.log("isMenu", isMenu);
     this.setState({
       openKeys: isMenu ? [lastOpenKey] : [...openKeys]
     });
   }
 
   getSelectedKeys = () => {
-    console.log("getSelectedKeys", getUrl())
-    console.log("getOpenKeys()", this.getOpenKeys())
     return [getUrl().SelectedKeys]
-  }
-  getOpenKeys = () => {
-    console.log("getOpenKeys", getUrl())
-    return [getUrl().openKeys]
   }
 
   render() {
@@ -139,7 +124,7 @@ export default class SiderMenu extends React.Component {
         collapsible
         collapsed={collapsed}
         breakpoint="md"
-        width={256}
+        width = { 256 }
         className={styles.sider}
       >
         <div className={styles.logo} key="logo">

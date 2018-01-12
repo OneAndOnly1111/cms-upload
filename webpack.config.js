@@ -16,6 +16,12 @@ module.exports = {
 		port: 9000,
 		// hot: true,
 		// inline: true,
+		proxy: {
+			'/videos': {
+				target: 'http://47.96.188.88:8080/',
+				secure: false
+			}
+		}
 	},
 	module: {
 		rules: [{

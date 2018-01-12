@@ -3,7 +3,7 @@ import { Layout, Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.less';
-import logo from '../../images/good.png';
+import avatar from '../../images/avatar.png';
 const { Header } = Layout;
 
 export default class GlobalHeader extends PureComponent {
@@ -33,7 +33,7 @@ export default class GlobalHeader extends PureComponent {
         <div className={styles.right}>
           <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
-                <Avatar size="small" className={styles.avatar} src={logo} />
+                <Avatar size="small" className={styles.avatar} src={avatar} />
                 <span className={styles.name}>张三</span>
               </span>
             </Dropdown>
