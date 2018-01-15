@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./index.less";
+import classNames from "classnames";
 
-export default ({ links, copyright }) => {
+export default ({ className, links, copyright }) => {
+  const clsString = classNames(styles.globalFooter, className);
   return (
-    <div className={styles.globalFooter}>
+    <div className={clsString}>
       <div className={styles.links}>
         {
           links && links.map(link=>{

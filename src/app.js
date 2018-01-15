@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Menu, Icon } from 'antd';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from "react-router-dom";
 import "./styles/main.css";
 import { getMenuData } from './common/menu';
 // import { getRouterData } from './common/route';
@@ -11,6 +11,20 @@ import TextOne from "./components/Test";
 import Login from "./components/Login";
 import NotFound from "./components/Exception/404";
 const { Header, Sider, Content, Footer } = Layout;
+const links = [{
+  title: '云熵官网',
+  href: 'http://crazycdn.com',
+  blankTarget: true,
+}, {
+  title: 'GitHub',
+  href: 'https://github.com/oneandonly1111/console',
+  blankTarget: true,
+}, {
+  title: 'Ant Design',
+  href: 'http://ant.design',
+  blankTarget: true,
+}];
+const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
 /**
  * 根据菜单取得重定向地址.
  */
@@ -46,7 +60,6 @@ export default class App extends React.Component {
     const menuData = getMenuData();
     console.log("APP-did-mount", menuData);
   }
-
 
   componentDidUpdate(prevProps, prevState) {
     console.log("APP-Update!!!");
@@ -90,34 +103,42 @@ export default class App extends React.Component {
                   <Route exact path='/contact' component={TextOne} />
                   <Route exact path='/dashboard/monitor' component={TextOne} />
                   <Route exact path='/dashboard/analysis' component={TextOne} />
-                  <Route exact path='/user/login' component={Login} />
+                  <PrivateRoute path="/user/login" component={Login} />
                   <Route component={NotFound} />
                 </Switch>
               </Content>
-              <GlobalFooter
-                links={[{
-                  title: '云熵官网',
-                  href: 'http://crazycdn.com',
-                  blankTarget: true,
-                }, {
-                  title: 'GitHub',
-                  href: 'https://github.com/oneandonly1111/console',
-                  blankTarget: true,
-                }, {
-                  title: 'Ant Design',
-                  href: 'http://ant.design',
-                  blankTarget: true,
-                }]}
-                copyright={
-                  <div>
-                    Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品
-                  </div>
-                }
-              />
+              <GlobalFooter links={links} copyright={copyright}/>
             </Layout>
           </Layout>
         </Router>
       </div>
     );
+  }
+}
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+<Route {...rest} render={props => (
+    fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+): (
+<Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+)
+)
+}
+/>
+)
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100) // fake async
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
   }
 }
