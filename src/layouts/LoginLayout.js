@@ -2,11 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Icon, Input, Checkbox } from "antd";
 import md5 from "md5";
-import styles from "./index.less";
-import GlobalFooter from "../GlobalFooter";
-import logo from "../../../public/favicon.ico";
-const FormItem = Form.Item;
+import styles from "./LoginLayout.less";
+import logo from "../../public/favicon.ico";
+import GlobalFooter from "../components/GlobalFooter";
 
+const FormItem = Form.Item;
+const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
 const links = [{
   title: '云熵官网',
   href: 'http://crazycdn.com',
@@ -20,7 +21,6 @@ const links = [{
   href: 'http://ant.design',
   blankTarget: true,
 }];
-const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
 
 class LoginForm extends React.Component {
   /*登录验证*/
@@ -82,5 +82,6 @@ class LoginForm extends React.Component {
     );
   }
 }
+
 const Login = Form.create()(LoginForm);
 export default Login;

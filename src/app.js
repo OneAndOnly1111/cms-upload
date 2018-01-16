@@ -1,9 +1,55 @@
 import React from "react";
-import { Layout, Menu, Icon } from 'antd';
 import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from "react-router-dom";
+import Login from "./layouts/LoginLayout";
+import BasicLayout from "./layouts/BasicLayout";
+import "./styles/main.css";
+
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <Switch>
+             <Route path="/login" component={Login} />
+             <PrivateRoute path="/" component={BasicLayout} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
+}
+
+const fakeAuth = {
+  isAuthenticated: true,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100) // fake async
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
+  }
+}
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+<Route {...rest} render={props => (
+    fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+): (
+<Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+)
+)
+}
+/>
+)
+
+/*
 import "./styles/main.css";
 import { getMenuData } from './common/menu';
-// import { getRouterData } from './common/route';
 import SiderMenu from "./components/SiderMenu";
 import GlobalHeader from "./components/GlobalHeader";
 import GlobalFooter from "./components/GlobalFooter";
@@ -25,9 +71,9 @@ const links = [{
   blankTarget: true,
 }];
 const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
-/**
- * 根据菜单取得重定向地址.
- */
+
+ //根据菜单取得重定向地址.
+ 
 const redirectData = [];
 const getRedirect = (item) => {
   if (item && item.children) {
@@ -45,17 +91,9 @@ const getRedirect = (item) => {
 getMenuData().forEach(getRedirect);
 console.log("redirectData", redirectData);
 
-const getUrl = () => {
-  let url = window.location.href.split("/");
-  url = url.splice(3);
-  url = url.join("/");
-  return url;
-  console.log("url", url);
-  window.location.reload();
-}
 
-getUrl()
-export default class App extends React.Component {
+
+class BasicLayout extends React.Component {
   componentDidMount() {
     const menuData = getMenuData();
     console.log("APP-did-mount", menuData);
@@ -63,7 +101,6 @@ export default class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log("APP-Update!!!");
-    getUrl();
   }
 
   state = {
@@ -75,70 +112,35 @@ export default class App extends React.Component {
     });
   }
 
-
   render() {
     const { collapsed } = this.state;
     return (
       <div>
-        <Router>
+        <Layout>
+          <SiderMenu
+            menuData={getMenuData()}
+            collapsed={collapsed}
+          />
           <Layout>
-            <SiderMenu
-              menuData={getMenuData()}
+            <GlobalHeader
               collapsed={collapsed}
+              onCollapse={this.toggle}
             />
-            <Layout>
-              <GlobalHeader 
-                collapsed={collapsed}
-                onCollapse={this.toggle}
-              />
-              <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-                <Switch>
-                  {
-                    redirectData.map(item =>
-                      <Redirect key={item.from} exact from={item.from} to={item.to} />
-                    )
-                  }
-                  <Route exact path='/' component={TextOne} />
-                  <Route exact path='/about' component={TextOne} />
-                  <Route exact path='/contact' component={TextOne} />
-                  <Route exact path='/dashboard/monitor' component={TextOne} />
-                  <Route exact path='/dashboard/analysis' component={TextOne} />
-                  <PrivateRoute path="/user/login" component={Login} />
-                  <Route component={NotFound} />
-                </Switch>
-              </Content>
-              <GlobalFooter links={links} copyright={copyright}/>
-            </Layout>
+            <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+              <Switch>
+                <Route exact path='/' component={TextOne} />
+                <Route exact path='/about' component={TextOne} />
+                <Route exact path='/contact' component={TextOne} />
+                <Route exact path='/dashboard/monitor' component={TextOne} />
+                <Route exact path='/dashboard/analysis' component={TextOne} />
+                <Route component={NotFound} />
+              </Switch>
+            </Content>
+            <GlobalFooter links={links} copyright={copyright}/>
           </Layout>
-        </Router>
+        </Layout>
       </div>
     );
   }
 }
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-<Route {...rest} render={props => (
-    fakeAuth.isAuthenticated ? (
-      <Component {...props}/>
-): (
-<Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }}/>
-)
-)
-}
-/>
-)
-
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true
-    setTimeout(cb, 100) // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false
-    setTimeout(cb, 100)
-  }
-}
+*/
