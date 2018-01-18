@@ -1,4 +1,7 @@
 import React from 'react';
+import { Route } from "react-router-dom";
+/*
+
 // import dynamic from 'dva/dynamic';
 import { getMenuData } from './menu';
 
@@ -170,14 +173,60 @@ export const getRouterData = (app) => {
   return routerData;
 };
 
-const routers = [{
-  path: '/dashboard/monitor',
-  component: 'Test',
+*/
+
+import Test from "../components/Test";
+
+const routerData = [{
+  path: '/',
+  componentName: Test,
   exact: true,
   authority: true,
-  render: () => <LazyRoute {...props} component={import('../components/test/test1.js')} />
+  //component: <Route path="/" exact render={(props)=>import("../components/Test")} />,
+  component: () =>
+    import ('../components/Test'),
+  // component: import ('../components/Test')
+  // component: (props) => <Component {...props} component={import('../components/Test')} />
 }, {
-  path: '/',
-  component: 'Dashboard',
+  path: '/dashboard/analysis',
+  componentName: Test,
+  exact: true,
   authority: true,
+  //component: <Route path="/dashboard/analysis" exact render={(props)=>import("../components/Test")} />,
+  component: () =>
+    import ('../components/Test'),
+  // component: import ('../components/Test')
+  // component: (props) => <Component {...props} component={import('../components/Test')} />
+}, {
+  path: '/dashboard/monitor',
+  componentName: Test,
+  exact: true,
+  authority: true,
+  //component: <Route path="/dashboard/monitor" exact render={(props)=>import("../components/Test")} />,
+  component: () =>
+    import ('../components/Test'),
+  // component: import ('../components/Test')
+  //component: (props) => <Component {...props} component={import('../components/Test')} />*/}
+}, {
+  path: '/form/basic-form',
+  componentName: Test,
+  exact: true,
+  authority: true,
+  //component: <Route path="/form/basic-form" exact render={(props)=>import("../components/Test")} />,
+  component: () =>
+    import ('../components/Test'),
+  // component: import ('../components/Test')
+  // component: (props) => <Component {...props} component={import('../components/Test')} />
+}, {
+  path: '/form/step-form',
+  componentName: Test,
+  exact: true,
+  authority: true,
+  //component: <Route path="/form/step-form" exact render={(props)=>import("../components/Test")} />,
+  component: () =>
+    import ('../components/Test'),
+  // component: import ('../components/Test')
+  //component: (props) => <Component {...props} component={import('../components/Test')} />
 }];
+
+export const getRouterData = () => routerData;

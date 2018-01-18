@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from "react-router-dom";
-import Login from "./layouts/LoginLayout";
+import LoginLayout from "./layouts/LoginLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import "./styles/main.css";
-
 
 export default class App extends React.Component {
   render() {
@@ -11,7 +10,7 @@ export default class App extends React.Component {
       <Router>
         <div>
           <Switch>
-             <Route path="/login" component={Login} />
+             <Route path="/login" component={LoginLayout} />
              <PrivateRoute path="/" component={BasicLayout} />
           </Switch>
         </div>
@@ -33,19 +32,15 @@ const fakeAuth = {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-<Route {...rest} render={props => (
-    fakeAuth.isAuthenticated ? (
-      <Component {...props}/>
-): (
-<Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }}/>
-)
+<Route
+    {...rest}
+    render={ props =>(
+      fakeAuth.isAuthenticated ? (<Component {...props}/>): (<Redirect to={{ pathname: '/login', state: { from: props.location }}}/>)
 )
 }
 />
 )
+
 
 /*
 import "./styles/main.css";
