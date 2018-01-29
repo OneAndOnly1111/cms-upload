@@ -1,10 +1,15 @@
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-	entry: ['babel-polyfill', './src/index.js'],
+	entry: {
+		main: ['./src/index.js', 'babel-polyfill'],
+		vendor: ['jquery', 'react', 'moment']
+	},
 	output: {
-		filename: 'js/bundle.js',
+		filename: 'js/[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
 	},
@@ -105,11 +110,15 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		new htmlWebpackPlugin({
+		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, './src/index.html'),
 			filename: 'index.html',
 			inject: 'body',
 			title: '控制台'
-		})
+		}),
+		new webpack.optimize.CommonsChunkPlugin({ //提取公共模块
+			name: 'vendor'
+		}),
+		new CleanWebpackPlugin(['dist']), //打包之前删除上一次的打包文件
 	]
 }

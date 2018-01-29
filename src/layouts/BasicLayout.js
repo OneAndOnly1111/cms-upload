@@ -8,7 +8,6 @@ import TextOne from "../components/Test";
 import NotFound from "../components/Exception/404";
 import { getRouterData } from "../common/route.js";
 
-
 const { Content } = Layout;
 const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
 const links = [{
@@ -62,7 +61,7 @@ export default class BasicLayout extends React.Component {
               <Switch>
                 {
                   getRouterData().map((route,index)=>(
-                    <Route exact={route.exact} path={route.path} key={route.key||index} component={route.componentName} />
+                    <Route exact={route.exact} path={route.path} key={route.key||index} component={route.component} />
                   ))
                 }
                 <Redirect exact from="/" to="/dashboard/analysis" />
@@ -75,12 +74,4 @@ export default class BasicLayout extends React.Component {
       </div>
     );
   }
-}
-
-{
-  /*<Route exact path='/' component={TextOne} />
-  <Route exact path='/about' component={TextOne} />
-  <Route exact path='/contact' component={TextOne} />
-  <Route exact path='/dashboard/monitor' component={TextOne} />
-  <Route exact path='/dashboard/analysis' component={TextOne} />*/
 }
