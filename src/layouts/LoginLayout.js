@@ -5,6 +5,7 @@ import md5 from "md5";
 import styles from "./LoginLayout.less";
 import logo from "../../public/favicon.ico";
 import GlobalFooter from "../components/GlobalFooter";
+import { login } from "../services/api";
 
 const FormItem = Form.Item;
 const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
@@ -21,19 +22,27 @@ const links = [{
   href: 'http://ant.design',
   blankTarget: true,
 }];
-
 class LoginForm extends React.Component {
+
+  state = {
+    submitting: false,
+  }
+
   /*登录验证*/
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.password = md5(values.password);
-        console.log('Received values of form: ', values);
+        values.remember = values.remember.toString();
+        login(values).then((data) => {
+          console.log("recevice-data", data);
+        });
       }
     });
   }
   render() {
+    const { submitting } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className={styles.container}>
@@ -49,7 +58,7 @@ class LoginForm extends React.Component {
         <div className={styles.main}>
           <Form onSubmit={this.handleSubmit}>
             <FormItem>
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('username', {
                 rules: [{ required: true, message: '请填写用户名！' }],
               })(
                 <Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
@@ -70,7 +79,7 @@ class LoginForm extends React.Component {
                 <Checkbox>记住密码</Checkbox>
               )}
               <a className={styles.forgot_pwd} href="">忘记密码</a>
-              <Button size="large" type="primary" htmlType="submit" className={styles.login_btn}>
+              <Button size="large" type="primary" htmlType="submit" className={styles.login_btn} loading={submitting}>
                 登录
               </Button>
               或 <a href="">立即注册！</a>

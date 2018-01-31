@@ -13,12 +13,18 @@ export default class GlobalHeader extends PureComponent {
     onCollapse(!collapsed);
   }
 
+  onMenuClick = (item, key, keyPath) => {
+    if (item.key == "logout") {
+      this.props.subscribeAuth(false);
+    }
+  }
+
   render() {
     const { collapsed } = this.props;
     const menu = (
-      <Menu className={styles.menu} selectedKeys={[]}>
-        <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
-        <Menu.Item disabled><Icon type="setting" />设置</Menu.Item>
+      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
+        <Menu.Item key="userCenter" disabled><Icon type="user" />个人中心</Menu.Item>
+        <Menu.Item key="setting" disabled><Icon type="setting" />设置</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Link to="/login"><Icon type="logout" />退出登录</Link></Menu.Item>
       </Menu>

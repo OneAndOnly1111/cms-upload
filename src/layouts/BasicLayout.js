@@ -23,7 +23,6 @@ const links = [{
   href: 'http://ant.design',
   blankTarget: true,
 }];
-
 export default class BasicLayout extends React.Component {
   state = {
     collapsed: false,
@@ -35,17 +34,9 @@ export default class BasicLayout extends React.Component {
     });
   }
 
-  componentDidMount() {
-    console.log("getRouterData", getRouterData())
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log("BasicLayout-Update!!!");
-  }
-
   render() {
     const { collapsed } = this.state;
-    console.log("getRouterData", getRouterData())
+    const { subscribeAuth } = this.props;
     return (
       <div>
         <Layout>
@@ -56,6 +47,7 @@ export default class BasicLayout extends React.Component {
             <GlobalHeader
               collapsed={collapsed}
               onCollapse={this.toggle}
+              subscribeAuth={subscribeAuth}
             />
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               <Switch>

@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
 	entry: {
-		main: ['./src/index.js', 'babel-polyfill'],
+		main: ['babel-polyfill', './src/index.js'],
 		vendor: ['jquery', 'react', 'moment']
 	},
 	output: {
@@ -22,10 +22,9 @@ module.exports = {
 		// hot: true,
 		// inline: true,
 		proxy: {
-			'/videos': {
-				target: 'http://47.96.188.88:8080/',
-				secure: false
-			}
+			'/api': {
+				target: 'http://192.168.1.61:10004/'
+			},
 		}
 	},
 	module: {
