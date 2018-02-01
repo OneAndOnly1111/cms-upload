@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const OpenBrowserWebpackPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -19,6 +20,7 @@ module.exports = {
 		compress: true, //启用gzip 压缩
 		host: '0.0.0.0', //服务外部也可访问
 		port: 9000,
+		disableHostCheck: true,
 		// hot: true,
 		// inline: true,
 		proxy: {
@@ -119,5 +121,6 @@ module.exports = {
 			name: 'vendor'
 		}),
 		new CleanWebpackPlugin(['dist']), //打包之前删除上一次的打包文件
+		new OpenBrowserWebpackPlugin({ url: 'http://me.crazycdn.cn:9000' }), //webpack打包完成，呼起浏览器并打开配置的url
 	]
 }

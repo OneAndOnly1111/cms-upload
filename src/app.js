@@ -3,10 +3,15 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import LoginLayout from "./layouts/LoginLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import "./styles/main.css";
+import { getCookie } from "./utils/utils";
 
+const isAuthenticated = getCookie("sid") ? true : false;
+const userName = getCookie("userName") ? getCookie("userName") : null;
+
+console.log("isAuthenticated", isAuthenticated)
 export default class App extends React.Component {
   state = {
-    isAuthenticated: localStorage.getItem("userID") ? true : true,
+    isAuthenticated: getCookie("sid") ? true : false
   }
   subscribeAuth = (auth) => {
     this.setState({
@@ -14,6 +19,7 @@ export default class App extends React.Component {
     });
   }
   render() {
+    console.log("app--render!!!", this.state.isAuthenticated)
     return (
       <Router>
         <div>

@@ -48,7 +48,7 @@ export default function request(url, options) {
       ...newOptions.headers
     }
   }
-  newOptions.body = JSON.stringify(newOptions.body);
+  newOptions.body ? newOptions.body = JSON.stringify(newOptions.body) : null;
   console.log("request--options", newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)

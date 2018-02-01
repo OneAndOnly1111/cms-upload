@@ -2,7 +2,7 @@ import React from 'react';
 import Loadable from "react-loadable";
 
 const myLoadingComponent = ({ isLoading, error, pastDelay }) => {
-  console.log("isLoading", isLoading, error, pastDelay);
+  // console.log("isLoading", isLoading, error, pastDelay);
   if (isLoading) {
     return <div>Loading...</div>;
   } else if (error) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Icon, Input, Checkbox } from "antd";
+import { Form, Button, Icon, Input, Checkbox, message, notification } from "antd";
 import md5 from "md5";
 import styles from "./LoginLayout.less";
 import logo from "../../public/favicon.ico";
@@ -35,12 +35,31 @@ class LoginForm extends React.Component {
       if (!err) {
         values.password = md5(values.password);
         values.remember = values.remember.toString();
+        /*請求登録*/
+        this.setState({
+          submitting: true
+        });
         login(values).then((data) => {
           console.log("recevice-data", data);
+          if (data.msg == 'success') {
+            this.props.subscribeAuth(true);
+            this.props.history.push("/");
+            notification.open({
+              message: '登录成功！',
+              description: `${values.username}，欢迎访问云熵控制台~`,
+              icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+            });
+          } else {
+            message.error("用户名或密码错误！请重新输入~")
+          }
+          this.setState({
+            submitting: false
+          });
         });
       }
     });
   }
+
   render() {
     const { submitting } = this.state;
     const { getFieldDecorator } = this.props.form;
