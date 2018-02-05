@@ -2,11 +2,10 @@ import React from 'react';
 import Loadable from "react-loadable";
 
 const myLoadingComponent = ({ isLoading, error, pastDelay }) => {
-  // console.log("isLoading", isLoading, error, pastDelay);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div style={{color:'#999'}}>Loading...</div>;
   } else if (error) {
-    return <div>Sorry,there was a problem loading the page.</div>;
+    return <div style={{color:'#999'}}>Sorry,there was a problem loading the page.</div>;
   } else {
     return null;
   }
@@ -18,7 +17,17 @@ const routerData = [{
   authority: true,
   component: Loadable({
     loader: () =>
-      import ("../components/Test"),
+      import ("../containers/BasicMonit/Dashboard"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/user/setting',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/User"),
     loading: myLoadingComponent,
     delay: 300,
   })
@@ -28,7 +37,7 @@ const routerData = [{
   authority: true,
   component: Loadable({
     loader: () =>
-      import ("../components/Test"),
+      import ("../containers/BasicMonit/Dashboard"),
     loading: myLoadingComponent,
     delay: 300,
   })

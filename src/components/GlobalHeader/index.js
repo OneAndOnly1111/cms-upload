@@ -3,8 +3,8 @@ import { Layout, Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Popover, Badg
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.less';
-import avatar from '../../images/avatar.png';
-import avatar2 from '../../images/avatar2.png';
+import avatar from '../../assets/avatar.png';
+import avatar2 from '../../assets/avatar2.png';
 import { logout } from '../../services/api';
 const { Header } = Layout;
 
@@ -26,7 +26,7 @@ export default class GlobalHeader extends PureComponent {
     const { collapsed, userName } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        <Menu.Item key="user" disabled><Icon type="user" />个人中心</Menu.Item>
+        <Menu.Item key="user"><Link to="/user/setting"><Icon type="user" />个人中心</Link></Menu.Item>
         <Menu.Item key="setting" disabled><Icon type="setting" />设置</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Link to="/login"><Icon type="logout" />退出登录</Link></Menu.Item>
@@ -57,9 +57,9 @@ export default class GlobalHeader extends PureComponent {
         renderItem={item=>(
           <List.Item>
             <List.Item.Meta
-              avatar={<Avatar src={avatar2} />
+              avatar={<Avatar src={avatar2}/>
     }
-    title = { <a href="#">{item.title}</a> }
+    title = { <a>{item.title}</a> }
     description = "3小时前" /
       >
       <

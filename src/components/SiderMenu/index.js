@@ -103,7 +103,6 @@ export default class SiderMenu extends React.Component {
   }
 
   onOpenChange = (openKeys) => {
-    console.log("openKeys", openKeys);
     const lastOpenKey = openKeys[openKeys.length - 1];
     const isMenu = this.state.menusData.some(item => item.key == lastOpenKey || item.path == lastOpenKey);
     this.setState({
