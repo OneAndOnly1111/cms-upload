@@ -17,6 +17,7 @@ const menuData = [{
   name: '表单页',
   icon: 'form',
   path: 'form',
+  hideInMenu: false,
   children: [{
     name: '基础表单',
     path: 'basic-form',
@@ -97,19 +98,13 @@ const menuData = [{
     path: 'trigger',
   }],
 }, {
-  name: '账户',
+  name: '访问控制',
   icon: 'user',
   path: 'user',
   authority: 'guest',
   children: [{
-    name: '登录',
-    path: 'login',
-  }, {
-    name: '注册',
-    path: 'register',
-  }, {
-    name: '注册结果',
-    path: 'register-result',
+    name: '用户管理',
+    path: 'management',
   }],
 }, {
   name: '使用文档',

@@ -2,11 +2,11 @@ import React from "react";
 import md5 from "md5"
 import { Row, Col, Button, Icon, Card, Modal, Form, Input, Radio, Select, message, } from "antd";
 import { queryUserInfo, updateUserInfo, updateUserPwd, logout } from "../../services/api";
-import styles from './index.less';
+import styles from './UserSetting.less';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
-class UserSettingWrapper extends React.Component {
+class Wrapper extends React.Component {
   state = {
     userInfo: {},
     visible_resetPwd: false,
@@ -281,7 +281,7 @@ class UserSettingWrapper extends React.Component {
     return (
       <div>
         <Row type={'flex'} justify="center">
-          <Col span={23} style={{marginTop:24+'px'}}>
+          <Col span={23} style={{marginTop:12+'px'}}>
             <Icon type="setting" style={{marginRight:8+'px'}} />个人设置中心
           </Col>
           <Col span={23} style={{paddingTop:12+'px',borderBottom:1+'px'+' solid'+' #e9e9e9'}}></Col>
@@ -326,5 +326,5 @@ class UserSettingWrapper extends React.Component {
     );
   }
 }
-const User = Form.create()(UserSettingWrapper);
-export default User;
+const UserSetting = Form.create()(Wrapper);
+export default UserSetting;

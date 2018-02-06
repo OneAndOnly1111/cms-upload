@@ -11,6 +11,10 @@ const myLoadingComponent = ({ isLoading, error, pastDelay }) => {
   }
 }
 
+const checkAuth = (routerPath) => {
+
+}
+
 const routerData = [{
   path: '/',
   exact: true,
@@ -27,7 +31,17 @@ const routerData = [{
   authority: true,
   component: Loadable({
     loader: () =>
-      import ("../containers/User"),
+      import ("../containers/User/UserSetting"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/user/management',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/User/UserManagement"),
     loading: myLoadingComponent,
     delay: 300,
   })
@@ -73,4 +87,8 @@ const routerData = [{
   })
 }];
 
-export const getRouterData = () => routerData;
+export const getRouterData = (userInfo) => {
+  console.log("userInfo--router", userInfo);
+  let accesses = "ConsoleServerDeployReadOnlyAccess,ConsoleBasicMonitorReadOnlyAccess,ConsoleBusinessMonitorFullAccess,ConsoleAuthorityModuleFullAccess";
+  return routerData
+};

@@ -38,14 +38,28 @@ export default class BasicLayout extends React.Component {
 
   componentDidMount() {
     /*获取用户信息*/
-    queryUserInfo().then((data) => {
-      console.log("queryUserInfo--res", data);
-      if (data.msg == "success") {
+    queryUserInfo().then((res) => {
+      if (res.msg == "success") {
         this.setState({
-          userName: data.data.user
+          userName: res.data.user,
+          userInfo: res.data
         });
       }
     });
+  }
+
+  componentWillMount() {
+    /*检验登录是否过期*/
+    if (!getCookie("sid")) {
+      notification.warning({
+        message: '登录信息已过期！',
+        description: '请重新登录~',
+        duration: 1.5,
+        onClose: () => {
+          this.props.subscribeAuth(false);
+        }
+      });
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -54,7 +68,7 @@ export default class BasicLayout extends React.Component {
       notification.warning({
         message: '登录信息已过期！',
         description: '请重新登录~',
-        duration: 2,
+        duration: 1.5,
         onClose: () => {
           this.props.subscribeAuth(false);
         }
@@ -82,7 +96,7 @@ export default class BasicLayout extends React.Component {
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               <Switch>
                 {
-                  getRouterData().map((route,index)=>(
+                  getRouterData(this.state.userInfo).map((route,index)=>(
                     <Route exact={route.exact} path={route.path} key={route.key||index} component={route.component} />
                   ))
                 }

@@ -128,7 +128,7 @@ export default class SiderMenu extends React.Component {
       >
         <div className={styles.logo} key="logo">
           <img src={logo} alt="logo" />
-          <h1>控制台</h1>
+          <h1>CONSOLE</h1>
         </div>
         <Menu
           theme="dark"
