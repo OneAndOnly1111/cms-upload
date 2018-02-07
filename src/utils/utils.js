@@ -5,3 +5,10 @@ export const getCookie = (name) => {
   else
     return null;
 }
+
+export const getWs = () => {
+  if (window.WebSocket != undefined) {
+    var connection = new WebSocket('ws://192.168.1.61:10101/wsapi/msg');
+    return connection
+  }
+}

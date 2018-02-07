@@ -3,11 +3,12 @@ const menuData = [{
   icon: 'dashboard',
   path: 'dashboard',
   children: [{
-    name: '分析页',
-    path: 'analysis',
-  }, {
     name: '监控页',
     path: 'monitor',
+  }, {
+    name: '分析页',
+    path: 'analysis',
+    hideInMenu: true,
   }, {
     name: '工作台',
     path: 'workplace',

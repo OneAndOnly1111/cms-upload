@@ -16,7 +16,7 @@ class Wrapper extends React.Component {
 
   queryUserInfo = () => {
     queryUserInfo().then((res) => {
-      if (res.msg == 'success') {
+      if (res.msg == 'success' || res.code == 'Success') {
         this.setState({
           userInfo: res.data
         });
@@ -43,7 +43,7 @@ class Wrapper extends React.Component {
     this.props.form.validateFieldsAndScroll(['alias', 'sex', 'email', 'phone', 'wechat'], { force: true }, (err, values) => {
       if (!err) {
         updateUserInfo(values).then(res => {
-          if (res.msg == 'success') {
+          if (res.msg == 'success' || res.code == 'Success') {
             message.success("修改用户信息成功！");
             this.queryUserInfo();
           } else {
@@ -73,7 +73,7 @@ class Wrapper extends React.Component {
     this.props.form.validateFieldsAndScroll(['originPassword', 'password', 'confirm'], { force: true }, (err, values) => {
       if (!err) {
         updateUserPwd({ passwd: md5(values.originPassword), newPasswd: md5(values.password) }).then(res => {
-          if (res.msg == "success") {
+          if (res.msg == "success" || res.code == "Success") {
             message.success("密码修改成功！请重新登录~", 2.5, () => {
               logout();
               this.props.history.push("/user/login");

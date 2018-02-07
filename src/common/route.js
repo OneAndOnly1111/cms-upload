@@ -46,7 +46,7 @@ const routerData = [{
     delay: 300,
   })
 }, {
-  path: '/dashboard/analysis',
+  path: '/dashboard/monitor',
   exact: true,
   authority: true,
   component: Loadable({
@@ -56,32 +56,12 @@ const routerData = [{
     delay: 300,
   })
 }, {
-  path: '/dashboard/monitor',
+  path: '/dashboard/hostMonitor',
   exact: true,
   authority: true,
   component: Loadable({
     loader: () =>
-      import ("../components/Test"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/form/basic-form',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../components/Test"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/form/step-form',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../components/Test"),
+      import ("../containers/BasicMonit/HostMonitor"),
     loading: myLoadingComponent,
     delay: 300,
   })

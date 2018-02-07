@@ -25,7 +25,7 @@ module.exports = {
 		// inline: true,
 		proxy: {
 			'/api': {
-				target: 'http://192.168.1.61:10004/'
+				target: 'http://192.168.1.61:10101/' //10101  10004
 			},
 		}
 	},

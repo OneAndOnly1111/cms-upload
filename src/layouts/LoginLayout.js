@@ -39,9 +39,8 @@ class LoginForm extends React.Component {
         this.setState({
           submitting: true
         });
-        login(values).then((data) => {
-          console.log("recevice-data", data);
-          if (data.msg == 'success') {
+        login(values).then((res) => {
+          if (res.msg == 'success' || res.code == 'Success') {
             this.props.subscribeAuth(true);
             this.props.history.push("/");
             notification.open({

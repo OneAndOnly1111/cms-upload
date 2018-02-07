@@ -39,7 +39,7 @@ export default class BasicLayout extends React.Component {
   componentDidMount() {
     /*获取用户信息*/
     queryUserInfo().then((res) => {
-      if (res.msg == "success") {
+      if (res.msg == "success" || res.code == "Success") {
         this.setState({
           userName: res.data.user,
           userInfo: res.data
@@ -93,14 +93,14 @@ export default class BasicLayout extends React.Component {
               subscribeAuth={subscribeAuth}
               userName={userName}
             />
-            <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+            <Content style={{ margin: '18px 18px', padding: 24, background: '#fff', minHeight: 280 }}>
               <Switch>
                 {
                   getRouterData(this.state.userInfo).map((route,index)=>(
                     <Route exact={route.exact} path={route.path} key={route.key||index} component={route.component} />
                   ))
                 }
-                <Redirect exact from="/" to="/dashboard/analysis" />
+                <Redirect exact from="/" to="/dashboard/monitor" />
                 <Route component={NotFound} />
               </Switch>
             </Content>

@@ -25,7 +25,7 @@ class Wrapper extends React.Component {
       loading: true
     });
     queryUserList().then((res) => {
-      if (res.msg == 'success') {
+      if (res.msg == 'success' || res.code == 'Success') {
         const dataSource = [];
         res.data.map((item, index) => {
           dataSource.push({
@@ -65,7 +65,7 @@ class Wrapper extends React.Component {
         values.prefix = undefined;
         values.passwd = md5(values.passwd);
         createUser(values).then(res => {
-          if (res.msg == 'success') {
+          if (res.msg == 'success' || res.code == 'Success') {
             message.success('创建用户成功！', 1, () => { this.queryUserList() });
           } else {
             message.error(`创建用户失败！msg：${res.msg}`);
@@ -85,7 +85,7 @@ class Wrapper extends React.Component {
       content: '此操作将撤销该用户对控制台的访问权限，请谨慎操作！',
       onOk: () => {
         deleteUser({ id: id }).then(res => {
-          if (res.msg == 'success') {
+          if (res.msg == 'success' || res.code == 'Success') {
             message.success(`用户${user}删除成功！`, 1, () => { this.queryUserList() });
           } else {
             message.error(`用户${user}删除失败！msg：${res.msg}`);
@@ -112,7 +112,7 @@ class Wrapper extends React.Component {
     this.props.form.validateFieldsAndScroll(['user_reset', 'password_reset', 'confirm_reset'], { force: true }, (err, values) => {
       if (!err) {
         resetUserPwd({ user: values.user_reset, passwd: md5(values.password_reset) }).then(res => {
-          if (res.msg == 'success') {
+          if (res.msg == 'success' || res.code == 'Success') {
             if (getCookie('username') == values.user_reset) {
               console.log("history", this.props.history);
               message.success("你的密码重置成功！请重新登录~", 2.5, () => {
@@ -183,7 +183,7 @@ class Wrapper extends React.Component {
           wechat: values.wechat_upd
         }
         AdminUpdateUserInfo(params).then(res => {
-          if (res.msg == 'success') {
+          if (res.msg == 'success' || res.code == 'Success') {
             message.success("更新用户信息成功！", 1, () => { this.queryUserList() });
           } else {
             message.error(`更新用户信息失败！msg：${res.msg}`);
