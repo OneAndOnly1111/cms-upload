@@ -1,3 +1,4 @@
+/*
 const menuData = [{
   name: 'dashboard',
   icon: 'dashboard',
@@ -111,6 +112,38 @@ const menuData = [{
   name: '使用文档',
   icon: 'book',
   path: 'http://pro.ant.design/docs/getting-started',
+  target: '_blank',
+}];
+*/
+const menuData = [{
+  name: 'dashboard',
+  icon: 'dashboard',
+  path: 'dashboard',
+  children: [{
+    name: '监控页',
+    path: 'monitor',
+  }, {
+    name: '分析页',
+    path: 'analysis',
+    hideInMenu: true,
+  }, {
+    name: '工作台',
+    path: 'workplace',
+    hideInMenu: true,
+  }],
+}, {
+  name: '访问控制',
+  icon: 'user',
+  path: 'user',
+  authority: 'guest',
+  children: [{
+    name: '用户管理',
+    path: 'management',
+  }],
+}, {
+  name: '使用文档',
+  icon: 'book',
+  path: 'https://github.com/cloudtropy/dashboard/blob/master/README.md',
   target: '_blank',
 }];
 

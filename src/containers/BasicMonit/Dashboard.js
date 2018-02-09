@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Dashboard.less";
 import classNames from "classnames";
 import { queryHostList, queryRemovedHostList, updateHostInfo } from "../../services/api";
+import { getWs } from "../../utils/utils";
 const TabPane = Tabs.TabPane;
 export default class Wrapper extends React.Component {
 
@@ -86,21 +87,21 @@ export default class Wrapper extends React.Component {
     this.queryHostList()
 
     //监听websocket
-    // this.ws = new util().getWs();
-    // this.ws.onmessage = (event) => {
-    //   var data = JSON.parse(event.data);
-    //   if (data.topic == 'host_status_change') {
-    //     this.getAsset(this.state.key);
-    //   }
-    // }
+    this.ws = new getWs();
+    this.ws.onmessage = (event) => {
+      var data = JSON.parse(event.data);
+      console.log("ws-data", data);
+      if (data.topic == 'host_status_change') {
+        this.queryHostList();
+      }
+    }
   }
 
-  // componentWillUnmount() {
-  //   console.log('已离开', this.ws)
-  //   this.ws.onclose = (e) => { console.log('closed!') }
-  //   this.ws.close()
-  // }
-
+  componentWillUnmount() {
+    console.log('已离开', this.ws)
+    this.ws.onclose = (e) => { console.log('closed!') }
+    this.ws.close()
+  }
 
   /* search func */
   handleSearch = (value) => {

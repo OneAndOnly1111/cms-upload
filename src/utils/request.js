@@ -49,14 +49,12 @@ export default function request(url, options) {
     }
   }
   newOptions.body ? newOptions.body = JSON.stringify(newOptions.body) : null;
-  console.log("request--options", newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => {
       return response.json();
     })
     .catch((err) => {
-      console.log("err", err, "response", err.response);
       const status = err.response.status;
       if (status === 401) {
         //logout

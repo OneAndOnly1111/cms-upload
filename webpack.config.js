@@ -121,6 +121,6 @@ module.exports = {
 			name: 'vendor'
 		}),
 		new CleanWebpackPlugin(['dist']), //打包之前删除上一次的打包文件
-		new OpenBrowserWebpackPlugin({ url: 'http://me.crazycdn.cn:9000' }), //webpack打包完成，呼起浏览器并打开配置的url
+		new OpenBrowserWebpackPlugin({ url: 'http://localhost:9000' }), //webpack打包完成，呼起浏览器并打开配置的url
 	]
 }
