@@ -11,10 +11,69 @@ const myLoadingComponent = ({ isLoading, error, pastDelay }) => {
   }
 }
 
-const checkAuth = (routerPath) => {
+const routerData = [{
+  path: '/',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/Video/UploadVideo"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/videoUpload',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/Video/UploadVideo"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/uploadList',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/Video/UploadList"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/publishList',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/Video/PublishList"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/user/setting',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/User/UserSetting"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}, {
+  path: '/user/management',
+  exact: true,
+  authority: true,
+  component: Loadable({
+    loader: () =>
+      import ("../containers/User/UserManagement"),
+    loading: myLoadingComponent,
+    delay: 300,
+  })
+}];
 
-}
-
+/*
 const routerData = [{
   path: '/',
   exact: true,
@@ -66,6 +125,8 @@ const routerData = [{
     delay: 300,
   })
 }];
+*/
+
 
 export const getRouterData = (userInfo) => {
   console.log("userInfo--router", userInfo);

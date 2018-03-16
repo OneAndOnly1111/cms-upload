@@ -6,6 +6,7 @@ import styles from "./LoginLayout.less";
 import logo from "../../public/favicon.ico";
 import GlobalFooter from "../components/GlobalFooter";
 import { login } from "../services/api";
+import { setCookie } from "../utils/utils.js"
 
 const FormItem = Form.Item;
 const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;

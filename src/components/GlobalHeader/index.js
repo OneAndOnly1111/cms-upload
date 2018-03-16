@@ -29,7 +29,7 @@ export default class GlobalHeader extends PureComponent {
         <Menu.Item key="user"><Link to="/user/setting"><Icon type="user" />个人中心</Link></Menu.Item>
         <Menu.Item key="setting" disabled><Icon type="setting" />设置</Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="logout"><Link to="/login"><Icon type="logout" />退出登录</Link></Menu.Item>
+        <Menu.Item key="logout"><Link to="/user/login"><Icon type="logout" />退出登录</Link></Menu.Item>
       </Menu>
     );
 
@@ -54,37 +54,29 @@ export default class GlobalHeader extends PureComponent {
         className={styles.list}
         header={<div>通知（12）</div>}
         dataSource={noticeDataSource}
-        renderItem={item=>(
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src={avatar2}/>
+        renderItem={item=>(<List.Item><List.Item.Meta avatar={<Avatar src={avatar2}/>
     }
-    title = { <a>{item.title}</a> }
-    description = "3小时前" /
-      >
-      <
-      /List.Item>
-  )
-}
-/>
-);
+    title = { <a>{item.title}</a> } description = "3小时前" / > < /List.Item>)}/ >
+  );
 
-const trigger = (
-  <span className={styles.noticeButton}>
-        <Badge count={12}>
-          <Icon type="bell" className={styles.icon} />
-        </Badge>
-      </span>
-);
-return (
-  <Header className={styles.header}>
-        <Icon
+  const trigger = (
+    <span className={styles.noticeButton}>
+          <Badge count={12}>
+            <Icon type="bell" className={styles.icon} />
+          </Badge>
+        </span>
+  );
+
+  return (
+    <Header className={styles.header}>
+        <div className={styles.logo} />
+        {/*<Icon
           className={styles.trigger}
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
-        />
+        />*/}
         <div className={styles.right}>
-          <Popover
+          {/*<Popover
             placement="bottomRight"
             content={notificationBox}
             popupClassName={styles.popover}
@@ -92,7 +84,7 @@ return (
             arrowPointAtCenter
           >
             {trigger}
-          </Popover>
+          </Popover>*/}
           <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
                 <Avatar size="small" className={styles.avatar} src={avatar} />
@@ -101,6 +93,6 @@ return (
             </Dropdown>
         </div>
       </Header>
-);
+  );
 }
 }

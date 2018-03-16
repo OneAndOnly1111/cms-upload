@@ -11,11 +11,13 @@ const userName = getCookie("userName") ? getCookie("userName") : null;
 console.log("isAuthenticated", isAuthenticated)
 export default class App extends React.Component {
   state = {
-    isAuthenticated: getCookie("sid") ? true : false
+    // isAuthenticated: getCookie("sid") ? true : false,
+    isAuthenticated: true,
   }
   subscribeAuth = (auth) => {
     this.setState({
-      isAuthenticated: auth
+      // isAuthenticated: auth,
+      isAuthenticated: true,
     });
   }
   render() {

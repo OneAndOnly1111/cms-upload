@@ -114,6 +114,38 @@ export default class SiderMenu extends React.Component {
     return [getUrl().SelectedKeys]
   }
 
+  // render() {
+  //   const { collapsed } = this.props;
+  //   const { menusData, openKeys, SelectedKeys } = this.state;
+  //   return (
+  //     <Sider
+  //       trigger={null}
+  //       collapsible
+  //       collapsed={collapsed}
+  //       breakpoint="md"
+  //       width = { 256 }
+  //       className={styles.sider}
+  //     >
+  //       <div className={styles.logo} key="logo">
+  //         <img src={logo} alt="logo" />
+  //         <h1>CONSOLE</h1>
+  //       </div>
+  //       <Menu
+  //         theme="dark"
+  //         mode="inline"
+  //         style={{ padding: '16px 0', width: '100%' }}
+  //         defaultOpenKeys={openKeys}
+  //         openKeys={openKeys}
+  //         onOpenChange={this.onOpenChange}
+  //         defaultSelectedKeys={SelectedKeys}
+  //         SelectedKeys={this.getSelectedKeys()}
+  //       >
+  //         { this.getNavMenuItems(menusData) }
+  //       </Menu>
+  //     </Sider>
+  //   );
+  // }
+
   render() {
     const { collapsed } = this.props;
     const { menusData, openKeys, SelectedKeys } = this.state;
@@ -126,18 +158,13 @@ export default class SiderMenu extends React.Component {
         width = { 256 }
         className={styles.sider}
       >
-        <div className={styles.logo} key="logo">
-          <img src={logo} alt="logo" />
-          <h1>CONSOLE</h1>
-        </div>
         <Menu
-          theme="dark"
           mode="inline"
-          style={{ padding: '16px 0', width: '100%' }}
+          style={{ padding: '16px 0', width: '100%', height: '100%'}}
           defaultOpenKeys={openKeys}
           openKeys={openKeys}
           onOpenChange={this.onOpenChange}
-          defaultSelectedKeys={SelectedKeys}
+          defaultSelectedKeys={['videoUpload'] || SelectedKeys}
           SelectedKeys={this.getSelectedKeys()}
         >
           { this.getNavMenuItems(menusData) }
@@ -145,4 +172,5 @@ export default class SiderMenu extends React.Component {
       </Sider>
     );
   }
+
 }

@@ -2,7 +2,11 @@
 
 .header {
   padding: 0 12px 0 0;
-  background: #fff;
+  // background: #fff;
+  background: #001529;
+  color: #fff;
+  padding: 0 50px;
+
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
   position: relative;
 }
@@ -14,18 +18,26 @@
 }
 
 .logo {
-  height: 64px;
-  line-height: 58px;
-  vertical-align: top;
-  display: inline-block;
-  padding: 0 0 0 24px;
-  cursor: pointer;
-  font-size: 20px;
-  img {
-    display: inline-block;
-    vertical-align: middle;
-  }
+  width: 120px;
+  height: 31px;
+  background: rgba(255,255,255,.2);  
+  margin: 16px 28px 16px 0;
+  float: left;
 }
+
+// .logo {
+//   height: 64px;
+//   line-height: 58px;
+//   vertical-align: top;
+//   display: inline-block;
+//   padding: 0 0 0 24px;
+//   cursor: pointer;
+//   font-size: 20px;
+//   img {
+//     display: inline-block;
+//     vertical-align: middle;
+//   }
+// }
 
 .menu {
   :global(.anticon) {
@@ -65,11 +77,13 @@ i.trigger {
   padding:0px 18px;
   transition: all .3s;
   &:hover {
-    background: @primary-1;
+    // background: @primary-1;
+    background-color: #1890FF;
   }
 }
 
 .icon {
+  color: #fff;
   font-size: 16px;
   padding: 4px;
 }
@@ -92,7 +106,8 @@ i.trigger {
   }
   &:hover,
   &:global(.ant-popover-open) {
-    background: @primary-1;
+    // background: @primary-1;
+    background-color: #1890FF;
   }
 }
 
