@@ -53,7 +53,10 @@ class FormWrapper extends React.Component {
     this.setState({ current });
   }
 
-  handleChangeVideoOriginal = ({ fileList }) => this.setState({ fileListVideoOriginal: fileList })
+  handleChangeVideoOriginal = ({ fileList }) => {
+    console.log("onChange", fileList);
+    this.setState({ fileListVideoOriginal: fileList });
+  }
 
   handleChangeVideoPreview = ({ fileList }) => this.setState({ fileListVideoPreview: fileList })
 
@@ -61,7 +64,7 @@ class FormWrapper extends React.Component {
 
 
   beforeUpload = (file) => {
-    console.log("file", file);
+    console.log("before-upload-file", file);
     const isVideo = file.type === 'video/mp4';
     if (!isVideo) {
       message.error('你只能上传视频文件');
