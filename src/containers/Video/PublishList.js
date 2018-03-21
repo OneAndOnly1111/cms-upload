@@ -35,28 +35,25 @@ export default class PublishList extends React.Component {
 		})
 	}
 
-	judgePublishVideo = (id, publish_time) => {
+	judgePublishVideo = (id, publish_time, videoName) => {
 		if (publish_time == '未发布') {
-			this.publishVideo(id);
-		} {
-			this.cancelPublish(id);
+			this.publishVideo(id, videoName);
+		} else {
+			this.cancelPublish(id, videoName);
 		}
 	}
 
-	publishVideo = (id) => {
+	publishVideo = (id, videoName) => {
 		Modal.confirm({
-			title: `确认发布视频 ${id} 吗？`,
-			content: '该操作不可逆！请谨慎操作！',
+			title: `确认发布视频 ${videoName} 吗？`,
+			content: '请谨慎操作！',
 			onOk: () => {
-				this.setState({ publishing: true });
 				publishVideo({ "id": id }).then(res => {
 					if (res) {
 						if (res.success) {
-							message.success("发布成功！", 1, () => { this.getData(this.state.current, this.state.pageSize) });
-							this.setState({ publishing: false });
+							message.success("提交成功！待后台审核", 1, () => { this.getData(this.state.current, this.state.pageSize) });
 						} else {
-							message.error("发布失败！");
-							this.setState({ publishing: false });
+							message.error("提交失败！");
 						}
 					}
 				})
@@ -65,20 +62,17 @@ export default class PublishList extends React.Component {
 		});
 	}
 
-	cancelPublish = (id) => {
+	cancelPublish = (id, videoName) => {
 		Modal.confirm({
-			title: `确认取消发布 ${id} 吗？`,
-			content: '该操作不可逆！请谨慎操作！',
+			title: `确认取消 ${videoName} 吗？`,
+			content: '请谨慎操作！',
 			onOk: () => {
-				this.setState({ publishing: true });
 				cancelPublishVideo({ "id": id }).then(res => {
 					if (res) {
 						if (res.success) {
-							message.success("取消发布成功！", 1, () => { this.getData(this.state.current, this.state.pageSize) });
-							this.setState({ publishing: false });
+							message.success("取消成功！", 1, () => { this.getData(this.state.current, this.state.pageSize) });
 						} else {
-							message.error("取消发布失败！");
-							this.setState({ publishing: false });
+							message.error("取消失败！");
 						}
 					}
 				})
@@ -127,8 +121,7 @@ export default class PublishList extends React.Component {
 	}
 
 	render() {
-		const { dataSource, totalCount, pageSize, current, publishing, visible, videoOriginal } = this.state;
-		console.log("published", publishing)
+		const { dataSource, totalCount, pageSize, current, visible, videoOriginal } = this.state;
 		const pagination = {
 			showSizeChanger: true,
 			showQuickJumper: true,
@@ -158,7 +151,7 @@ export default class PublishList extends React.Component {
 			        key={item.id}
 			        actions={[
 			        	<Button size={"small"} onClick={this.showModal.bind(this,item.videoOriginal)}>播放</Button>,
-			        	<Button type={item.publish_time=='未发布'?'primary':(item.publish_time==='审核中'?'default':'danger')} size={"small"} disabled={item.publish_time=='审核中'} onClick={()=>this.judgePublishVideo(item.id,item.publish_time)}>{item.publish_time=='未发布'?'发布':(item.publish_time=='审核中'?'审核中':'取消发布')}</Button>,
+			        	<Button type={item.publish_time=='未发布'?'primary':(item.publish_time==='审核中'?'default':'danger')} size={"small"} onClick={()=>this.judgePublishVideo(item.id,item.publish_time,item.videoName)}>{item.publish_time=='未发布'?'发布':(item.publish_time=='审核中'?'取消审核':'取消发布')}</Button>,
 								// <Icon type="delete" style={{fontSize:'18px'}} onClick={()=>this.delVideo(item.id)} />,
 			        	<Popover content={renderContent(item)} trigger="click" placement="bottomLeft">
 						      <Icon type="bars" style={{fontSize:'18px'}} />
