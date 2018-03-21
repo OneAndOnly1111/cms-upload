@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Form, Button, Icon, Input, Checkbox, message, notification } from "antd";
 import md5 from "md5";
 import styles from "./LoginLayout.less";
-import logo from "../../public/favicon.ico";
+import logo from "../assets/logo.ico";
 import GlobalFooter from "../components/GlobalFooter";
 import { login, userLogin } from "../services/api";
 import { setCookie } from "../utils/utils.js"

@@ -3,7 +3,7 @@ import { Layout, Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Popover, Badg
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.less';
-import avatar from '../../assets/avatar.png';
+import avatar from '../../assets/avatar.jpg';
 import avatar2 from '../../assets/avatar2.png';
 import { userLogout } from '../../services/api';
 const { Header } = Layout;
