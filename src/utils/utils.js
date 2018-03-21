@@ -1,6 +1,7 @@
 /*get cookie*/
 export const getCookie = (name) => {
   var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  console.log("arr", document.cookie);
   if (arr = document.cookie.match(reg))
     return unescape(arr[2]);
   else
@@ -20,5 +21,13 @@ export const getWs = () => {
   if (window.WebSocket != undefined) {
     var connection = new WebSocket('ws://192.168.1.61:10101/wsapi/msg');
     return connection
+  }
+}
+
+export const clearAllCookie = () => {
+  var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+  if (keys) {
+    for (var i = keys.length; i--;)
+      document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
   }
 }

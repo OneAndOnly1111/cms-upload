@@ -1,78 +1,37 @@
 import React from "react";
-import { Row, Col, Steps, Button, Icon, message, Form, Input, Select, Checkbox, Upload, Modal } from 'antd';
+import { Row, Col, Steps, Button, Icon, message, Form, Input, Select, Checkbox, Upload, Modal, Tooltip } from 'antd';
 import Result from 'ant-design-pro/lib/Result';
 import styles from './UploadVideo.less';
+import { uploadVideo } from '../../services/api';
+import $ from "jquery";
 const Step = Steps.Step;
 const FormItem = Form.Item;
 
-const extra = (
-  <div>
-    <div style={{ fontSize: 16, color: 'rgba(0, 0, 0, 0.85)', fontWeight: 500, marginBottom: 16 }}>
-      您提交的内容有如下错误：
-    </div>
-    <div style={{ marginBottom: 16 }}>
-      <Icon style={{ color: '#f5222d', marginRight: 8 }} type="close-circle-o" />您的账户已被冻结
-      <a style={{ marginLeft: 16 }}>立即解冻 <Icon type="right" /></a>
-    </div>
-    <div>
-      <Icon style={{ color: '#f5222d', marginRight: 8 }} type="close-circle-o" />您的账户还不具备申请资格
-      <a style={{ marginLeft: 16 }}>立即升级 <Icon type="right" /></a>
-    </div>
-  </div>
-);
-const actions = <Button type="primary">返回修改</Button>;
-
-const lastContent = (
-  <div>
-    <Result
-      type="success"
-      title="提交成功"
-      description="提交结果页用于反馈一系列操作任务的处理结果，如果仅是简单操作，使用 Message 全局提示反馈即可。本文字区域可以展示简单的补充说明，如果有类似展示“单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。"
-      extra={extra}
-      actions={actions}
-      style={{ width: '50%' }}
-    />
-  </div>
-);
-
 class FormWrapper extends React.Component {
   state = {
-    current: 0,
+    submitting: false,
     previewImage: '',
-    fileList: [],
     fileListVideoOriginal: [],
     fileListVideoPreview: [],
     fileListVideoPoster: [],
   }
-  next() {
-    const current = this.state.current + 1;
-    this.setState({ current });
-  }
-  prev() {
-    const current = this.state.current - 1;
-    this.setState({ current });
-  }
 
-  handleChangeVideoOriginal = ({ fileList }) => {
-    console.log("onChange", fileList);
-    this.setState({ fileListVideoOriginal: fileList });
-  }
+  handleChangeVideoOriginal = ({ fileList }) => this.setState({ fileListVideoOriginal: fileList })
 
   handleChangeVideoPreview = ({ fileList }) => this.setState({ fileListVideoPreview: fileList })
 
   handleChangeVideoPoster = ({ fileList }) => this.setState({ fileListVideoPoster: fileList })
 
-
   beforeUpload = (file) => {
     console.log("before-upload-file", file);
     const isVideo = file.type === 'video/mp4';
     if (!isVideo) {
-      message.error('你只能上传视频文件');
+      message.error('你只能上传格式为mp4视频文件!');
     }
-    const isLt20M = file.size / 1024 / 1024 < 20;
-    if (!isLt20M) {
-      message.error('视频大小不得超过20M');
-    }
+    // const isLt20M = file.size / 1024 / 1024 < 20;
+    // if (!isLt20M) {
+    //   message.error('视频大小不得超过20M');
+    // }
     // return isVideo && isLt20M;
     return false;
   }
@@ -81,12 +40,12 @@ class FormWrapper extends React.Component {
     console.log("file", file);
     const isVideo = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
     if (!isVideo) {
-      message.error('你只能上传格式为jpeg、png、jpg的图片');
+      message.error('你只能上传格式为jpeg、png、jpg的图片!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('图片大小不得超过2M');
-    }
+    // const isLt2M = file.size / 1024 / 1024 < 2;
+    // if (!isLt2M) {
+    //   message.error('图片大小不得超过2M');
+    // }
     // return isVideo && isLt20M;
     return false;
   }
@@ -94,15 +53,74 @@ class FormWrapper extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('Received values of form:--eror ', values);
+      const params = {
+        original_file: this.state.fileListVideoOriginal[0],
+        passage_file: this.state.fileListVideoPreview[0],
+        poster_file: this.state.fileListVideoPoster[0],
+        video_name: values.video_name,
+        desc: values.desc,
+        detail: values.detail,
+        degree: values.degree
+      };
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.setState({ submitting: true });
+        var formData = new FormData();
+        formData.append("video_name", values.video_name);
+        formData.append("degree", values.degree);
+        formData.append("original_file", this.state.fileListVideoOriginal[0]);
+        values.desc ? formData.append("desc", values.desc) : null;
+        values.detail ? formData.append("detail", values.detail) : null;
+        this.state.fileListVideoPreview.length ? formData.append("passage_file", this.state.fileListVideoPreview[0]) : null;
+        this.state.fileListVideoPoster.length ? formData.append("poster_file", this.state.fileListVideoPoster[0]) : null;
+        $.ajax({
+          url: '/upload',
+          type: 'post',
+          cache: false,
+          processData: false,
+          contentType: false,
+          data: formData,
+          success: (res) => {
+            if (res.success) {
+              message.success('上传成功！');
+              const current = this.state.current + 1;
+              this.setState({ current });
+              this.setState({
+                submitting: false,
+                fileListVideoPoster: [],
+                fileListVideoPreview: [],
+                fileListVideoOriginal: []
+              });
+              this.props.form.setFieldsValue({
+                video_name: '',
+                desc: '',
+                detail: '',
+                degree: ''
+              });
+            } else {
+              message.error('上传失败！');
+              const current = this.state.current + 1;
+              this.setState({ current });
+              this.setState({
+                submitting: false,
+                fileListVideoPoster: [],
+                fileListVideoPreview: [],
+                fileListVideoOriginal: []
+              });
+              this.props.form.setFieldsValue({
+                video_name: '',
+                desc: '',
+                detail: '',
+                degree: ''
+              });
+            }
+          }
+        });
       }
     });
   }
 
   render() {
-    const { current, fileListVideoPreview, fileListVideoOriginal, fileListVideoPoster } = this.state;
+    const { current, fileListVideoPreview, fileListVideoOriginal, fileListVideoPoster, submitting } = this.state;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -138,7 +156,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="上传视频"
         >
-          {getFieldDecorator('video', {
+          {getFieldDecorator('original_file', {
             rules: [{
               required: true, message: '请先上传视频！',
             }],
@@ -160,7 +178,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="上传预览视频"
         >
-          {getFieldDecorator('videoPreview', {
+          {getFieldDecorator('passage_file', {
             rules: [{
               required: false, message: 'Please input your E-mail!',
             }],
@@ -181,7 +199,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="上传视频封面"
         >
-          {getFieldDecorator('videoPoster', {
+          {getFieldDecorator('poster_file', {
             rules: [{
               required: false, message: 'Please input your E-mail!',
             }],
@@ -202,7 +220,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="视频名称"
         >
-          {getFieldDecorator('name', {
+          {getFieldDecorator('video_name', {
             rules: [{
               required: true, message: '请填写视频名称！',
             }],
@@ -214,7 +232,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="视频描述"
         >
-          {getFieldDecorator('description', {
+          {getFieldDecorator('desc', {
             rules: [{
               required: false, message: 'Please input your password!',
             }],
@@ -226,7 +244,7 @@ class FormWrapper extends React.Component {
           {...formItemLayout}
           label="视频详情"
         >
-          {getFieldDecorator('details', {
+          {getFieldDecorator('detail', {
             rules: [{
               required: false, message: 'Please input your password!',
             }],
@@ -236,10 +254,16 @@ class FormWrapper extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="公开情况"
+          label={(
+            <span>
+              公开情况&nbsp;
+              <Tooltip title="公开代表直接发布到APP,私有代表暂时不发布">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
         >
-          {getFieldDecorator('authority', {
-            initialValue:"public",
+          {getFieldDecorator('degree', {
             rules: [{
               required: true, message: '请先选择视频公开情况！',
             }],
@@ -259,44 +283,16 @@ class FormWrapper extends React.Component {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">确认上传</Button>
+          <Button type="primary" htmlType="submit" loading={submitting}>确认上传</Button>
         </FormItem>
       </Form>
     );
-    const steps = [{
-      title: '填写视频信息',
-      content: firstContent,
-    }, {
-      title: '完成',
-      content: lastContent,
-    }];
+
     return (
       <div>
          <Row type="flex" justify="center">
           <Col span={18}>
-            <Steps current={current}>
-              {steps.map(item => <Step key={item.title} title={item.title} />)}
-            </Steps>
-            <div className={styles.steps_content}>{steps[this.state.current].content}</div>
-            <div className={styles.steps_action}>
-              {
-                this.state.current < steps.length - 1
-                &&
-                <Button type="primary" onClick={() => this.next()}>确认上传</Button>
-              }
-              {
-                this.state.current === steps.length - 1
-                &&
-                <Button type="primary" onClick={() => message.success('Processing complete!')}>完成</Button>
-              }
-              {
-                this.state.current > 0
-                &&
-                <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                  继续上传
-                </Button>
-              }
-            </div>
+            <div className={styles.steps_content}>{firstContent}</div>
           </Col>
         </Row>
       </div>

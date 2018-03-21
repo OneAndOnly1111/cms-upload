@@ -5,8 +5,9 @@ import md5 from "md5";
 import styles from "./LoginLayout.less";
 import logo from "../../public/favicon.ico";
 import GlobalFooter from "../components/GlobalFooter";
-import { login } from "../services/api";
+import { login, userLogin } from "../services/api";
 import { setCookie } from "../utils/utils.js"
+import $ from 'jquery';
 
 const FormItem = Form.Item;
 const copyright = <div>Copyright <Icon type="copyright" /> 2018 云熵网络科技技术部出品</div>;
@@ -34,23 +35,28 @@ class LoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.password = md5(values.password);
-        values.remember = values.remember.toString();
         /*請求登録*/
         this.setState({
           submitting: true
         });
-        login(values).then((res) => {
-          if (res.msg == 'success' || res.code == 'Success') {
-            this.props.subscribeAuth(true);
-            this.props.history.push("/");
-            notification.open({
-              message: '登录成功！',
-              description: `${values.username}，欢迎访问云熵控制台~`,
-              icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
-            });
-          } else {
-            message.error("用户名或密码错误！请重新输入~")
+        const params = {
+          username: values.username,
+          password: values.password
+        }
+        userLogin(params).then(res => {
+          if (res) {
+            if (res.success) {
+              // setCookie("userName", values.username);
+              this.props.subscribeAuth(true);
+              this.props.history.push("/");
+              notification.open({
+                message: '登录成功！',
+                description: `${values.username}，欢迎访问CMS-UPLOAD~`,
+                icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+              });
+            } else {
+              message.error("用户名或密码错误！请重新输入~");
+            }
           }
           this.setState({
             submitting: false
@@ -69,7 +75,7 @@ class LoginForm extends React.Component {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src={logo} />
-              <span className={styles.title}>CONSOLE</span>
+              <span className={styles.title}>DAPP</span>
             </Link>
           </div>
           <div className={styles.desc}></div>
@@ -78,14 +84,14 @@ class LoginForm extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <FormItem>
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: '请填写用户名！' }],
+                rules: [{ required: true, message: '请填写邮箱地址！' },{ type: 'email', message: '邮箱地址格式错误！', }],
               })(
-                <Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
+                <Input size="large" prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="邮箱" />
               )}
             </FormItem>
             <FormItem>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请填写密码！' }],
+                rules: [{ required: true, message: '请填写密码！' }, { pattern: /^[\w]{8,}$/, message: '密码格式错误！（不少于8位字符的字母数字或下划线）' }],
               })(
                 <Input size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
               )}
@@ -101,11 +107,11 @@ class LoginForm extends React.Component {
               <Button size="large" type="primary" htmlType="submit" className={styles.login_btn} loading={submitting}>
                 登录
               </Button>
-              或 <a href="">立即注册！</a>
+              或 <Link to="/user/register">立即注册！</Link>
             </FormItem>
           </Form>
         </div>
-        <GlobalFooter className={styles.footer} links={links} copyright={copyright} />
+        <GlobalFooter className={styles.footer} copyright={copyright} />
       </div>
     );
   }

@@ -34,17 +34,12 @@ const menuData = [{
 const menuData = [{
   name: '视频上传',
   icon: 'upload',
-  path: 'videoUpload',
+  path: 'userUpload',
 }, {
   name: '我的视频',
   icon: 'video-camera',
-  path: 'uploadList',
-}, {
-  name: '已发布列表',
-  icon: 'profile',
   path: 'publishList',
 }];
-
 
 
 function formatter(data, parentPath = '', parentAuthority) {

@@ -100,6 +100,7 @@ export default class SiderMenu extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log("SiderMenu update!");
+    console.log("this.getNavMenuItems(menusData)", this.getNavMenuItems(this.state.menusData))
   }
 
   onOpenChange = (openKeys) => {
@@ -156,15 +157,15 @@ export default class SiderMenu extends React.Component {
         collapsed={collapsed}
         breakpoint="md"
         width = { 256 }
-        className={styles.sider}
+        style={{ background: '#fff' }}
       >
         <Menu
           mode="inline"
-          style={{ padding: '16px 0', width: '100%', height: '100%'}}
+          style={{height: '100%'}}
           defaultOpenKeys={openKeys}
           openKeys={openKeys}
           onOpenChange={this.onOpenChange}
-          defaultSelectedKeys={['videoUpload'] || SelectedKeys}
+          defaultSelectedKeys={SelectedKeys[0] ? SelectedKeys : ['userUpload']}
           SelectedKeys={this.getSelectedKeys()}
         >
           { this.getNavMenuItems(menusData) }

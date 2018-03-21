@@ -7,8 +7,8 @@ import GlobalFooter from "../components/GlobalFooter";
 import TextOne from "../components/Test";
 import NotFound from "../components/Exception/404";
 import { getRouterData } from "../common/route.js";
-import { getCookie } from "../utils/utils";
-import { queryUserInfo } from "../services/api";
+import { getCookie, setCookie } from "../utils/utils";
+import { queryUserInfo, isAuth } from "../services/api";
 import styles from './BasicLayout.less';
 
 const { Content } = Layout;
@@ -38,21 +38,23 @@ export default class BasicLayout extends React.Component {
   }
 
   componentDidMount() {
-    /*获取用户信息*/
-    queryUserInfo().then((res) => {
-      if (res.msg == "success" || res.code == "Success") {
+    /*获取用户信息 以及判断是否登录*/
+    isAuth().then(res => {
+      if (res && res.identity) {
         this.setState({
-          userName: res.data.user,
-          userInfo: res.data
+          userName: res.username,
+          identity: res.identity
         });
+      } else {
+        this.props.subscribeAuth(false);
       }
     });
   }
 
-  /*
-  componentWillMount() {
+  componentDidUpdate(nextProps, nextState) {
     //检验登录是否过期
-    if (!getCookie("sid")) {
+    console.log("basic--did--update---this.state.identity", this.state.identity);
+    if (this.state.identity == false) {
       notification.warning({
         message: '登录信息已过期！',
         description: '请重新登录~',
@@ -63,56 +65,6 @@ export default class BasicLayout extends React.Component {
       });
     }
   }
-
-  componentWillUpdate(nextProps, nextState) {
-    //检验登录是否过期
-    if (!getCookie("sid")) {
-      notification.warning({
-        message: '登录信息已过期！',
-        description: '请重新登录~',
-        duration: 1.5,
-        onClose: () => {
-          this.props.subscribeAuth(false);
-        }
-      });
-    }
-  }
-  */
-
-  // render() {
-  //   console.log("BasicLayout--render!!!");
-  //   const { collapsed, userName } = this.state;
-  //   const { subscribeAuth } = this.props;
-  //   return (
-  //     <div>
-  //       <Layout>
-  //         <SiderMenu
-  //           collapsed={collapsed}
-  //         />
-  //         <Layout>
-  //           <GlobalHeader
-  //             collapsed={collapsed}
-  //             onCollapse={this.toggle}
-  //             subscribeAuth={subscribeAuth}
-  //             userName={userName}
-  //           />
-  //           <Content style={{ margin: '18px 18px', padding: 24, background: '#fff', minHeight: 280 }}>
-  //             <Switch>
-  //               {
-  //                 getRouterData(this.state.userInfo).map((route,index)=>(
-  //                   <Route exact={route.exact} path={route.path} key={route.key||index} component={route.component} />
-  //                 ))
-  //               }
-  //               <Redirect exact from="/" to="/dashboard/monitor" />
-  //               <Route component={NotFound} />
-  //             </Switch>
-  //           </Content>
-  //           <GlobalFooter links={links} copyright={copyright}/>
-  //         </Layout>
-  //       </Layout>
-  //     </div>
-  //   );
-  // }
 
   render() {
     console.log("BasicLayout--render!!!");
@@ -138,11 +90,11 @@ export default class BasicLayout extends React.Component {
               <Content style={{padding: '0 24px',minHeight: 700 }}>
                 <Switch>
                   {
-                    getRouterData(this.state.userInfo).map((route,index)=>(
+                    getRouterData().map((route,index)=>(
                       <Route exact={route.exact} path={route.path} key={route.key||index} component={route.component} />
                     ))
                   }
-                  <Redirect exact from="/" to="/dashboard/monitor" />
+                  <Redirect exact from="/" to="/userUpload" />
                   <Route component={NotFound} />
                 </Switch>
               </Content>

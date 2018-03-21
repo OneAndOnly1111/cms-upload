@@ -22,22 +22,12 @@ const routerData = [{
     delay: 300,
   })
 }, {
-  path: '/videoUpload',
+  path: '/userUpload',
   exact: true,
   authority: true,
   component: Loadable({
     loader: () =>
       import ("../containers/Video/UploadVideo"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/uploadList',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/Video/UploadList"),
     loading: myLoadingComponent,
     delay: 300,
   })
@@ -61,75 +51,8 @@ const routerData = [{
     loading: myLoadingComponent,
     delay: 300,
   })
-}, {
-  path: '/user/management',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/User/UserManagement"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
 }];
 
-/*
-const routerData = [{
-  path: '/',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/BasicMonit/Dashboard"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/user/setting',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/User/UserSetting"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/user/management',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/User/UserManagement"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/dashboard/monitor',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/BasicMonit/Dashboard"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}, {
-  path: '/dashboard/hostMonitor',
-  exact: true,
-  authority: true,
-  component: Loadable({
-    loader: () =>
-      import ("../containers/BasicMonit/HostMonitor"),
-    loading: myLoadingComponent,
-    delay: 300,
-  })
-}];
-*/
-
-
-export const getRouterData = (userInfo) => {
-  console.log("userInfo--router", userInfo);
-  let accesses = "ConsoleServerDeployReadOnlyAccess,ConsoleBasicMonitorReadOnlyAccess,ConsoleBusinessMonitorFullAccess,ConsoleAuthorityModuleFullAccess";
+export const getRouterData = () => {
   return routerData
 };

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './index.less';
 import avatar from '../../assets/avatar.png';
 import avatar2 from '../../assets/avatar2.png';
-import { logout } from '../../services/api';
+import { userLogout } from '../../services/api';
 const { Header } = Layout;
 
 export default class GlobalHeader extends PureComponent {
@@ -17,7 +17,11 @@ export default class GlobalHeader extends PureComponent {
 
   onMenuClick = (item, key, keyPath) => {
     if (item.key == "logout") {
-      logout();
+      userLogout().then(res => {
+        if (res && res.success) {
+          console.log("退出登陆成功！");
+        }
+      });
       this.props.subscribeAuth(false);
     }
   }
@@ -26,7 +30,7 @@ export default class GlobalHeader extends PureComponent {
     const { collapsed, userName } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        <Menu.Item key="user"><Link to="/user/setting"><Icon type="user" />个人中心</Link></Menu.Item>
+        <Menu.Item key="user" disabled ><Link to="/user/setting" disabled style={{color:"rgba(0, 0, 0, 0.25)"}} ><Icon type="user" />个人中心</Link></Menu.Item>
         <Menu.Item key="setting" disabled><Icon type="setting" />设置</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Link to="/user/login"><Icon type="logout" />退出登录</Link></Menu.Item>
@@ -69,7 +73,7 @@ export default class GlobalHeader extends PureComponent {
 
   return (
     <Header className={styles.header}>
-        <div className={styles.logo} />
+        <div className={styles.logo} ></div>
         {/*<Icon
           className={styles.trigger}
           type={collapsed ? 'menu-unfold' : 'menu-fold'}

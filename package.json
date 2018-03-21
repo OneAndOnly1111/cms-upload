@@ -33,6 +33,8 @@
     "babel-preset-stage-2": "^6.24.1",
     "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.18",
+    "clipboard": "^1.7.1",
+    "clipboard.js": "^1.0.1",
     "css-loader": "^0.28.7",
     "echarts": "^4.0.2",
     "file-loader": "^1.1.5",
