@@ -13,6 +13,7 @@ module.exports = {
 		filename: 'js/[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
+		// publicPath: 'http://192.168.2.200:8088/cms-upload-dashboard/dist',
 	},
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'), //告诉服务器从哪里提供内容。
@@ -24,12 +25,12 @@ module.exports = {
 		// hot: true,
 		// inline: true,
 		proxy: [{
-			context: ['/register', 'captcha', '/login', '/logout', '/is_auth', '/video'],
+			context: ['/register', '/captcha', '/login', '/logout', '/is_auth', '/video'],
 			target: 'http://192.168.2.39:8000/'
 		}, {
 			context: ['/upload'],
 			target: 'http://192.168.2.39:7000/',
-			pathRewrite: { "^/upload": "" }
+			// pathRewrite: { "^/upload": "" }
 		}]
 	},
 	module: {

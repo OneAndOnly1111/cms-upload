@@ -23,7 +23,8 @@ const links = [{
   blankTarget: true,
 }];
 
-const codeUrl = 'http://192.168.2.39:8000';
+const codeUrl = 'http://' + window.location.host // http://192.168.2.39:8000';
+console.log("codeUrl", codeUrl);
 
 class LoginForm extends React.Component {
 

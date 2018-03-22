@@ -106,33 +106,33 @@ export async function queryHostMonitorData(params) {
 /*-----------video-------------*/
 
 export async function queryVerifyCode(params) {
-  return request("/register/", {
+  return request("/register", {
     method: 'GET',
   });
 }
 
 export async function userRegister(params) {
-  return request("/register/", {
+  return request("/register", {
     method: 'POST',
     body: params
   });
 }
 
 export async function userLogin(params) {
-  return request("/login/", {
+  return request("/login", {
     method: 'POST',
     body: params
   });
 }
 
 export async function userLogout() {
-  return request("/logout/", {
+  return request("/logout", {
     method: 'GET',
   });
 }
 
 export async function isAuth() {
-  return request("/is_auth/", {
+  return request("/is_auth", {
     method: 'GET',
   });
 }

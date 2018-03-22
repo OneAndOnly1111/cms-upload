@@ -7,13 +7,21 @@ import "./styles/main.css";
 import { getCookie } from "./utils/utils";
 import { isAuth } from "./services/api";
 
-const isAuthenticated = getCookie("userName") ? true : false;
-console.log("getCookie", getCookie("userName"));
+function confirmIsAuth() {
+  isAuth().then(res => {
+    if (res) {
+      if (res.identity) {
+        return true
+      } else {
+        return false
+      }
+    }
+  });
+}
 
 export default class App extends React.Component {
   state = {
-    // isAuthenticated: getCookie("userName") ? true : false,
-    isAuthenticated: true,
+    isAuthenticated: confirmIsAuth(),
   }
   subscribeAuth = (auth) => {
     this.setState({
@@ -21,8 +29,24 @@ export default class App extends React.Component {
     });
   }
 
+  componentWillMount() {
+    isAuth().then(res => {
+      if (res) {
+        if (res.identity) {
+          this.setState({
+            isAuthenticated: true
+          })
+        } else {
+          this.setState({
+            isAuthenticated: false
+          })
+        }
+      }
+    })
+  }
+
   render() {
-    console.log("app--render!!!", this.state.isAuthenticated)
+    console.log("app--render!!!", this.state.isAuthenticated, typeof this.state.isAuthenticated)
     return (
       <Router>
         <div>
@@ -39,14 +63,14 @@ export default class App extends React.Component {
 
 const PrivateRoute = ({ component: Component, subscribeAuth, isAuthenticated, ...rest }) => (
 <Route {...rest} render={ 
-  props =>(isAuthenticated ? (<Component {...props} subscribeAuth={subscribeAuth} />): (<Redirect to={{ pathname: '/user/login', state: { from: props.location }}}/>))
+  props =>( (isAuthenticated==true || isAuthenticated==undefined) ? (<Component {...props} subscribeAuth={subscribeAuth} />): (<Redirect to={{ pathname: '/user/login', state: { from: props.location }}}/>))
 }
 />
 )
 
 const PublicRoute = ({ component: Component, subscribeAuth, isAuthenticated, ...rest }) => (
 <Route {...rest} render={
-  props => (!isAuthenticated ? (<Component {...props} subscribeAuth={subscribeAuth} />): (<Redirect to={{pathname:'/', state: { from: props.location }}} />))
+  props => <Component {...props} subscribeAuth={subscribeAuth} />
 }
 />
 )
