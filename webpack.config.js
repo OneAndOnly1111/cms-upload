@@ -26,10 +26,10 @@ module.exports = {
 		// inline: true,
 		proxy: [{
 			context: ['/register', '/captcha', '/login', '/logout', '/is_auth', '/video'],
-			target: 'http://192.168.2.39:8000/'
+			target: 'http://192.168.1.234:8000/'
 		}, {
 			context: ['/upload'],
-			target: 'http://192.168.2.39:7000/',
+			target: 'http://192.168.1.234:7000/',
 			// pathRewrite: { "^/upload": "" }
 		}]
 	},

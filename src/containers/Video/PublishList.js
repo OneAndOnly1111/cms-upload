@@ -18,9 +18,15 @@ export default class PublishList extends React.Component {
 	componentDidMount() {
 		this.getData(this.state.current, this.state.pageSize);
 		var clipboard = new Clipboard('.btn');
+		// setTimeout(() => {
+		// 	this.getData(this.state.current, this.state.pageSize);
+		// }, 500);
 	}
 
 	getData = (page_num, page_size) => {
+		this.setState({
+			dataSource: []
+		});
 		const params = {
 			page_num: page_num, //当前页数
 			page_size: page_size, //每页条数
@@ -159,9 +165,9 @@ export default class PublishList extends React.Component {
 			        ]}
 			      >
 			        <List.Item.Meta
-								avatar = { <video width={150} alt="logo" src={item.videoOriginal} /> }
+								avatar = { <video width={150} alt="logo" src={item.videoOriginal} poster={item.videoPoster} /> }
 			          title={<a>{item.videoName}</a>}
-			          description={<div><p style={{padding:'1% 0'}}>{item.desc=='None' || item.desc}</p><p>{item.playCount} 次播放</p></div>}
+			          description={<div><p className={styles.p_desc}>{item.desc=='None' || item.desc}</p><p>{item.playCount} 次播放</p></div>}
 			        />
 			      </List.Item>
 			    )}

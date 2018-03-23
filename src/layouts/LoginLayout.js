@@ -91,7 +91,7 @@ class LoginForm extends React.Component {
             </FormItem>
             <FormItem>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请填写密码！' }, { pattern: /^[\w]{8,}$/, message: '密码格式错误！（不少于8位字符的字母数字或下划线）' }],
+                rules: [{ required: true, message: '请填写密码！' }, { pattern: /^[\w]{8,16}$/, message: '密码格式错误！（8-16位字符的字母数字或下划线）' }],
               })(
                 <Input size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
               )}

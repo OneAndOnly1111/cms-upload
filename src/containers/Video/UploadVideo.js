@@ -80,38 +80,42 @@ class FormWrapper extends React.Component {
           contentType: false,
           data: formData,
           success: (res) => {
-            if (res.success) {
-              message.success('上传成功！');
-              const current = this.state.current + 1;
-              this.setState({ current });
-              this.setState({
-                submitting: false,
-                fileListVideoPoster: [],
-                fileListVideoPreview: [],
-                fileListVideoOriginal: []
-              });
-              this.props.form.setFieldsValue({
-                video_name: '',
-                desc: '',
-                detail: '',
-                degree: ''
-              });
+            if (res) {
+              if (res.success) {
+                message.success('上传成功！');
+                const current = this.state.current + 1;
+                this.setState({ current });
+                this.setState({
+                  submitting: false,
+                  fileListVideoPoster: [],
+                  fileListVideoPreview: [],
+                  fileListVideoOriginal: []
+                });
+                this.props.form.setFieldsValue({
+                  video_name: '',
+                  desc: '',
+                  detail: '',
+                  degree: ''
+                });
+              } else {
+                message.error('上传失败！');
+                const current = this.state.current + 1;
+                this.setState({ current });
+                this.setState({
+                  submitting: false,
+                  fileListVideoPoster: [],
+                  fileListVideoPreview: [],
+                  fileListVideoOriginal: []
+                });
+                this.props.form.setFieldsValue({
+                  video_name: '',
+                  desc: '',
+                  detail: '',
+                  degree: ''
+                });
+              }
             } else {
-              message.error('上传失败！');
-              const current = this.state.current + 1;
-              this.setState({ current });
-              this.setState({
-                submitting: false,
-                fileListVideoPoster: [],
-                fileListVideoPreview: [],
-                fileListVideoOriginal: []
-              });
-              this.props.form.setFieldsValue({
-                video_name: '',
-                desc: '',
-                detail: '',
-                degree: ''
-              });
+              this.setState({ submitting: false });
             }
           }
         });
@@ -235,9 +239,10 @@ class FormWrapper extends React.Component {
           {getFieldDecorator('desc', {
             rules: [{
               required: false, message: 'Please input your password!',
+              max:100, message:'不得超过100个字符！'
             }],
           })(
-            <Input.TextArea rows={4} />
+            <Input.TextArea rows={4} placeholder="控制在100个字符以内哦~" />
           )}
         </FormItem>
         <FormItem
@@ -249,7 +254,7 @@ class FormWrapper extends React.Component {
               required: false, message: 'Please input your password!',
             }],
           })(
-            <Input.TextArea rows={4} />
+            <Input.TextArea rows={4} placeholder="控制在100个字符以内哦~" />
           )}
         </FormItem>
         <FormItem
@@ -283,7 +288,7 @@ class FormWrapper extends React.Component {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit" loading={submitting}>确认上传</Button>
+          <Button type="primary" htmlType="submit" loading={submitting}>{submitting?'上传中':'确认上传'}</Button>
         </FormItem>
       </Form>
     );

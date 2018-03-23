@@ -134,14 +134,14 @@ class LoginForm extends React.Component {
             </FormItem>
             <FormItem>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请填写密码！' },{ pattern:/^[\w]{8,}$/, message:'密码格式不正确！（不少于8位字符的字母数字下划线）' },{ validator: this.checkConfirm }],
+                rules: [{ required: true, message: '请填写密码！' },{ pattern:/^[\w]{8,16}$/, message:'密码格式不正确！（8-16位字符的字母数字下划线）' },{ validator: this.checkConfirm }],
               })(
                 <Input size="large" type="password" placeholder="密码" />
               )}
             </FormItem>
             <FormItem>
               {getFieldDecorator('passwordComfirm', {
-                rules: [{ required: true, message: '请确认密码！' },{ pattern:/^[\w]{8,}$/, message:'密码格式不正确！（不少于8位字符的字母数字下划线）' },{ validator: this.checkPassword }],
+                rules: [{ required: true, message: '请确认密码！' },{ pattern:/^[\w]{8,16}$/, message:'密码格式不正确！（8-16位字符的字母数字下划线）' },{ validator: this.checkPassword }],
               })(
                 <Input size="large" onBlur={this.handleConfirmBlur} type="password" placeholder="确认密码" />
               )}
