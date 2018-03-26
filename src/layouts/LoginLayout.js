@@ -5,7 +5,7 @@ import md5 from "md5";
 import styles from "./LoginLayout.less";
 import logo from "../assets/logo.ico";
 import GlobalFooter from "../components/GlobalFooter";
-import { login, userLogin } from "../services/api";
+import { login, userLogin, userResendMail } from "../services/api";
 import { setCookie } from "../utils/utils.js"
 import $ from 'jquery';
 
@@ -28,6 +28,7 @@ class LoginForm extends React.Component {
 
   state = {
     submitting: false,
+    resendVisible: false
   }
 
   /*登录验证*/
@@ -55,13 +56,33 @@ class LoginForm extends React.Component {
                 icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
               });
             } else {
-              message.error("用户名或密码错误！请重新输入~");
+              if (res.msg == '打开邮箱激活！') {
+                this.setState({
+                  resendVisible: true,
+                  email: res.data.email
+                })
+              }
+              message.error(res.msg);
             }
           }
           this.setState({
             submitting: false
           });
         });
+      }
+    });
+  }
+
+  /*重发邮件*/
+  resendMail = (e) => {
+    e.preventDefault();
+    userResendMail({ email: this.state.email }).then(res => {
+      if (res) {
+        if (res.success) {
+          message.success("邮件已发送，请前往你的邮箱进行验证！");
+        } else {
+          message.error(`邮件发送失败！${res.msg}`);
+        }
       }
     });
   }
@@ -88,6 +109,7 @@ class LoginForm extends React.Component {
               })(
                 <Input size="large" prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="邮箱" />
               )}
+              <a className={styles.forgot_pwd} style={{display:this.state.resendVisible?'block':'none'}} onClick={this.resendMail} >邮件已失效？点击重新发送</a>
             </FormItem>
             <FormItem>
               {getFieldDecorator('password', {
@@ -101,12 +123,13 @@ class LoginForm extends React.Component {
                 valuePropName: 'checked',
                 initialValue: true,
               })(
-                <Checkbox>记住密码</Checkbox>
+                <Checkbox style={{display:"none"}}>记住密码</Checkbox>
               )}
-              <a className={styles.forgot_pwd} href="">忘记密码</a>
               <Button size="large" type="primary" htmlType="submit" className={styles.login_btn} loading={submitting}>
                 登录
               </Button>
+              <a className={styles.forgot_pwd} href="">忘记密码</a>
+
               或 <Link to="/user/register">立即注册！</Link>
             </FormItem>
           </Form>

@@ -25,7 +25,7 @@ module.exports = {
 		// hot: true,
 		// inline: true,
 		proxy: [{
-			context: ['/register', '/captcha', '/login', '/logout', '/is_auth', '/video'],
+			context: ['/get_captcha', '/register', '/captcha', '/login', '/logout', '/is_auth', '/resend_mail', '/video'],
 			target: 'http://192.168.1.234:8000/'
 		}, {
 			context: ['/upload'],
