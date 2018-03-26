@@ -254,7 +254,7 @@ class FormWrapper extends React.Component {
               required: false, message: 'Please input your password!',
             }],
           })(
-            <Input.TextArea rows={4} placeholder="控制在100个字符以内哦~" />
+            <Input.TextArea rows={4} />
           )}
         </FormItem>
         <FormItem
